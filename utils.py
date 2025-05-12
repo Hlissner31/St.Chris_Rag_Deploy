@@ -46,13 +46,13 @@ def answer_question_openai(query, k, index, chunks_with_meta):
         {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {query}\nAnswer:"}
     ]
 
-    # Get the model's response
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=messages,
-        temperature=0,
-        max_tokens=300
+    # Use the new API call with OpenAI's new interface
+    response = openai.completions.create(
+        model="gpt-3.5-turbo",  # Specify the model
+        prompt=messages[1]["content"],  # Provide the question to the model
+        max_tokens=300,
+        temperature=0
     )
 
     # Return both the answer and the context
-    return response['choices'][0]['message']['content'].strip(), context
+    return response.choices[0].text.strip(), context
