@@ -8,8 +8,8 @@ openai.api_key = st.secrets["openai"]["api_key"]
 
 # Embedding function using text-embedding-ada-002
 def get_openai_embedding(text):
-    response = openai.Embedding.create(
-        model="text-embedding-ada-002",  # Use the newer embedding model
+    response = openai.embeddings.create(
+        model="text-embedding-ada-002", 
         input=[text]
     )
     return response['data'][0]['embedding']  # Corrected to access the right key in response
