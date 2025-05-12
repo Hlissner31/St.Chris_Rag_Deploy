@@ -31,28 +31,30 @@ def search_chunks(query, k, index, chunks_with_meta):
 
 # Answer function using OpenAI API with the chunks and context
 def answer_question_openai(query, k, index, chunks_with_meta):
-    # Search for the top chunks relevant to the query
     top_chunks = search_chunks(query, k, index, chunks_with_meta)
-    
-    # Prepare the context text from the top chunks
+
     context = "\n\n---\n\n".join(
         f"(Page {chunk['page_number']})\n{chunk['chunk_text']}" for chunk in top_chunks
     )
-    
-    # Prepare the prompt to send to the OpenAI model
+
     messages = [
-        {"role": "system", "content": "Use only the information in the context to answer the question. "
-                                     "If the answer is not in the context, respond with: 'Information not found in the document.'"},
-        {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {query}\nAnswer:"}
+        {
+            "role": "system",
+            "content": "Use only the information in the context to answer the question. "
+                       "If the answer is not in the context, respond with: 'Information not found in the document.'"
+        },
+        {
+            "role": "user",
+            "content": f"Context:\n{context}\n\nQuestion: {query}\nAnswer:"
+        }
     ]
 
-    # Use the new API call with OpenAI's new interface
-    response = openai.completions.create(
-        model="gpt-3.5-turbo",  # Specify the model
-        prompt=messages[1]["content"],  # Provide the question to the model
-        max_tokens=300,
+    # ✅ CORRECT ENDPOINT for chat models
+    response = openai.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=messages,
         temperature=0
     )
 
-    # Return both the answer and the context
-    return response.choices[0].text.strip(), context
+    answer = response.choices[0].message.content.strip()
+    return answer, context
