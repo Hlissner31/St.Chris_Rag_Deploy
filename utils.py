@@ -12,8 +12,8 @@ def get_openai_embedding(text):
         model="text-embedding-ada-002",  # Use the newer embedding model
         input=[text]
     )
-    # Access the embeddings properly
-    embedding = response['data'][0]['embedding']
+    # Access the embeddings properly using the correct method for the OpenAI API >= 1.0.0
+    embedding = response.data[0].embedding  # Use .data instead of ['data']
     return embedding
 
 # Search chunks function
