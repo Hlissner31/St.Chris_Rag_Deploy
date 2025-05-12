@@ -9,10 +9,12 @@ openai.api_key = st.secrets["openai"]["api_key"]
 # Embedding function using text-embedding-ada-002
 def get_openai_embedding(text):
     response = openai.embeddings.create(
-        model="text-embedding-ada-002", 
+        model="text-embedding-ada-002",  # Use the newer embedding model
         input=[text]
     )
-    return response['data'][0]['embedding']  # Corrected to access the right key in response
+    # Access the embeddings properly
+    embedding = response['data'][0]['embedding']
+    return embedding
 
 # Search chunks function
 def search_chunks(query, k, index, chunks_with_meta):
