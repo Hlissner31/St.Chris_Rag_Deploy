@@ -16,7 +16,7 @@ def log_to_google_sheet(question, answer):
     client = gspread.authorize(creds)
 
     # Open your sheet (replace with your actual spreadsheet name or ID)
-    sheet = client.open("https://docs.google.com/spreadsheets/d/1JYj14H1_fBQ9rKoeDAAZurNePnnYwyWWH7Na8Y11-Vo/edit?gid=0#gid=0").sheet1
+    sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1JYj14H1_fBQ9rKoeDAAZurNePnnYwyWWH7Na8Y11-Vo/edit?gid=0#gid=0").sheet1
 
     # Append the row
     sheet.append_row([datetime.now().isoformat(), question, answer])
