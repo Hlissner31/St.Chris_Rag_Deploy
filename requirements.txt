@@ -2,3 +2,6 @@ streamlit
 openai
 faiss-cpu
 numpy
+gspread
+oauth2client
+pandas
